@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Siddhant Sambodhi — Cybersecurity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Karla:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f4f0;
+      --ink: #0e0e0d;
+      --ink-muted: #6b6b66;
+      --accent: #1a3a5c;
+      --accent-light: #d4e3f0;
+      --border: #ddddd8;
+      --card-bg: #ffffff;
+      --mono: 'IBM Plex Mono', monospace;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Karla', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      background: rgba(245,244,240,0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8rem 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+    h1.hero-name {
+      font-family: var(--serif);
+      font-size: clamp(4rem, 9vw, 9rem);
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+    h1.hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-sub {
+      margin-top: 2.5rem;
+      font-size: 1.05rem;
+      color: var(--ink-muted);
+      max-width: 480px;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.7s forwards;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #122a44; transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-deco {
+      position: absolute;
+      top: 10rem;
+      right: -2rem;
+      width: 420px;
+      height: 420px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+    .hero-deco::after {
+      content: '';
+      position: absolute;
+      top: 30px; left: 30px; right: 30px; bottom: 30px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 3rem;
+      border-top: 1px solid var(--border);
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--ink-muted);
+    }
+    h2.section-title {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      font-size: 1.1rem;
+      color: var(--ink-muted);
+      margin-bottom: 1.25rem;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+    .about-text p strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .about-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .meta-item:last-child { border-bottom: none; }
+    .meta-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .meta-value {
+      font-size: 0.95rem;
+      color: var(--ink);
+      font-weight: 400;
+    }
+    .meta-value a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .meta-value a:hover { text-decoration: underline; }
+
+    /* ── SKILLS ── */
+    #skills .skills-wrap {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+    .skill-group h3 {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--accent-light);
+    }
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-pill {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 0.3rem 0.75rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .skill-pill:hover { border-color: var(--accent); background: var(--accent-light); }
+
+    /* ── PROJECTS ── */
+    #projects .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(26,58,92,0.08);
+    }
+    .project-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .project-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+    .project-star {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--ink-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .project-name {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .project-desc {
+      font-size: 0.875rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+    }
+    .project-lang {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--ink-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .lang-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+    .project-arrow {
+      color: var(--accent);
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+    .project-card:hover .project-arrow { transform: translate(3px, -3px); }
+
+    .projects-loading, .projects-empty {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.05em;
+      padding: 2rem 0;
+    }
+    .projects-loading::after {
+      content: '...';
+      animation: dots 1.2s infinite;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-left {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.05em;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-links a {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes dots {
+      0%, 20%   { content: '.'; }
+      40%, 60%  { content: '..'; }
+      80%, 100% { content: '...'; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      #hero { padding: 7rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      #about .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .hero-deco { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-brand">SS</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-deco"></div>
+    <p class="hero-tag">Cybersecurity Professional · London, UK</p>
+    <h1 class="hero-name">Siddhant<br><em>Sambodhi</em></h1>
+    <p class="hero-sub">
+      MSc Cyber Security graduate specialising in penetration testing,
+      reverse engineering, and secure software development.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects ↓</a>
+      <a href="mailto:siddhantsambodhi@gmail.com" class="btn-ghost">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label reveal">About me</p>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>
+          I'm a <strong>Cybersecurity professional</strong> with an MSc from the University of Birmingham,
+          with a strong foundation in penetration testing, vulnerability analysis,
+          and reverse engineering.
+        </p>
+        <p>
+          My work spans firmware analysis, fuzzing-based vulnerability discovery, and IoT security research —
+          combining low-level technical depth with clear, actionable reporting.
+        </p>
+        <p>
+          Previously, I worked as a <strong>Secure Web Developer</strong> implementing
+          OWASP Top 10 standards and building full-stack features for education platforms.
+          I hold certifications from Cisco, Security Blue Team, and ISO/IEC 27001.
+        </p>
+      </div>
+      <div class="about-meta">
+        <div class="meta-item">
+          <span class="meta-label">Location</span>
+          <span class="meta-value">London, UK (TW3 4LU)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Education</span>
+          <span class="meta-value">MSc Cyber Security — University of Birmingham (2025)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Email</span>
+          <span class="meta-value"><a href="mailto:siddhantsambodhi@gmail.com">siddhantsambodhi@gmail.com</a></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">GitHub</span>
+          <span class="meta-value"><a href="https://github.com/siddhantsambodhi" target="_blank">github.com/siddhantsambodhi</a></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Certifications</span>
+          <span class="meta-value">ISO/IEC 27001 Lead Auditor · Cisco PCAP · Security Blue Team</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label reveal">Expertise</p>
+    <h2 class="section-title reveal">Skills &amp;<br><em>Tools</em></h2>
+    <div class="skills-wrap reveal">
+      <div class="skill-group">
+        <h3>Programming</h3>
+        <ul class="skill-list">
+          <li class="skill-pill">Python</li>
+          <li class="skill-pill">C++</li>
+          <li class="skill-pill">Java</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Security Tools</h3>
+        <ul class="skill-list">
+          <li class="skill-pill">Wireshark</li>
+          <li class="skill-pill">Ghidra</li>
+          <li class="skill-pill">IDA Pro</li>
+          <li class="skill-pill">AFL++</li>
+          <li class="skill-pill">Bettercap</li>
+          <li class="skill-pill">Docker</li>
+          <li class="skill-pill">Snyk</li>
+          <li class="skill-pill">BlackDuck</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Testing &amp; Analysis</h3>
+        <ul class="skill-list">
+          <li class="skill-pill">SAST</li>
+          <li class="skill-pill">DAST</li>
+          <li class="skill-pill">IAST</li>
+          <li class="skill-pill">Penetration Testing</li>
+          <li class="skill-pill">Vulnerability Assessment</li>
+          <li class="skill-pill">Reverse Engineering</li>
+          <li class="skill-pill">Threat Modelling</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Methodologies</h3>
+        <ul class="skill-list">
+          <li class="skill-pill">OWASP Top 10</li>
+          <li class="skill-pill">ISO/IEC 27001</li>
+          <li class="skill-pill">DevSecOps</li>
+          <li class="skill-pill">S-SDLC</li>
+          <li class="skill-pill">Secure Coding</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label reveal">Work</p>
+    <h2 class="section-title reveal">GitHub<br><em>Projects</em></h2>
+    <div id="projects-grid" class="projects-grid">
+      <p class="projects-loading">Fetching repositories</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-left">© 2025 Siddhant Sambodhi</p>
+    <div class="footer-links">
+      <a href="https://github.com/siddhantsambodhi" target="_blank">GitHub</a>
+      <a href="mailto:siddhantsambodhi@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    /* ── SCROLL REVEAL ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 0.05}s`;
+      observer.observe(el);
+    });
+
+    /* ── LANGUAGE COLOURS ── */
+    const langColors = {
+      Python: '#3572A5', JavaScript: '#f1e05a', TypeScript: '#2b7489',
+      'C++': '#f34b7d', C: '#555555', Java: '#b07219', Go: '#00ADD8',
+      Rust: '#dea584', Ruby: '#701516', Shell: '#89e051', HTML: '#e34c26',
+      CSS: '#563d7c', default: '#1a3a5c'
+    };
+
+    /* ── FETCH GITHUB REPOS ── */
+    async function loadProjects() {
+      const grid = document.getElementById('projects-grid');
+      try {
+        const res = await fetch('https://api.github.com/users/siddhantsambodhi/repos?sort=updated&per_page=12');
+        if (!res.ok) throw new Error('GitHub API error');
+        const repos = await res.json();
+        const filtered = repos.filter(r => !r.fork);
+
+        if (filtered.length === 0) {
+          grid.innerHTML = '<p class="projects-empty">No public repositories yet.</p>';
+          return;
+        }
+
+        grid.innerHTML = filtered.map((repo, idx) => {
+          const desc = repo.description || 'No description provided.';
+          const lang = repo.language || '';
+          const color = langColors[lang] || langColors.default;
+          const stars = repo.stargazers_count;
+          return `
+            <a class="project-card reveal" href="${repo.html_url}" target="_blank"
+               rel="noopener" style="transition-delay:${idx * 0.06}s">
+              <div class="project-card-top">
+                <div class="project-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                  </svg>
+                </div>
+                ${stars > 0 ? `<span class="project-star">★ ${stars}</span>` : ''}
+              </div>
+              <p class="project-name">${repo.name}</p>
+              <p class="project-desc">${desc}</p>
+              <div class="project-footer">
+                ${lang ? `<span class="project-lang"><span class="lang-dot" style="background:${color}"></span>${lang}</span>` : '<span></span>'}
+                <span class="project-arrow">↗</span>
+              </div>
+            </a>`;
+        }).join('');
+
+        /* re-observe new cards */
+        grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      } catch (err) {
+        grid.innerHTML = `<p class="projects-empty">Could not load repositories — <a href="https://github.com/siddhantsambodhi" style="color:var(--accent)">view on GitHub ↗</a></p>`;
+      }
+    }
+
+    loadProjects();
+  </script>
+</body>
+</html>
